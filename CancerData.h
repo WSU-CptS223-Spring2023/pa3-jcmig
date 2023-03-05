@@ -9,6 +9,7 @@ using std::string;
 using std::max;
 using std::cout;
 using std::endl;
+using std::move;
 
 class CancerData {
 public:

@@ -31,17 +31,17 @@ public:
     
     void insert(const T& data) { root_ = insertHelper(root_, data); }
 
-    bool remove(const T& key) { bool removed = false; root = removeHelper(root, key, removed); return removed;}
+    bool remove(const T& key) { bool removed = false; root_ = removeHelper(root_, key, removed); return removed;}
 
-    void clear() { clearHelper(root); }
+    void clear() { clearHelper(root_); }
 
     T findMin() const { findMinHelper(); }
 
     T findMax() const { findMaxHelper(); }
 
-    void printInOrder() const { printInOrderHelper(root); }
+    void printInOrder() const { printInOrderHelper(root_); }
 
-    vector<T> inOrder(vector<T> result) const { result; inOrderHelper(root, result); return result; }
+    vector<T> inOrder(vector<T> result) const { result; inOrderHelper(root_, result); return result; }
 
 private:
     AVLNode<T>* root_;
@@ -64,7 +64,7 @@ private:
             return newNode;
         }
         
-        if (data < node->getData()) {
+        if (data.getRate() < node->getData().getRate()) {
             node->setLeft(insertHelper(node->getLeft(), data));
         } else {
             node->setRight(insertHelper(node->getRight(), data));
@@ -91,7 +91,7 @@ private:
         return node;
     }
 
-    AVLNode<T>* removeHelper(AVL<T>* node, const T& key, bool& removed) {
+    AVLNode<T>* removeHelper(AVLNode<T>* node, const T& key, bool& removed) {
         if (!node)
             return nullptr;
 
@@ -154,11 +154,11 @@ private:
 
     void clearHelper(AVLNode<T>* node) {
         if (node != nullptr) {
-            clear(node->getLeft());
-            clear(node->getRight());
+            clearHelper(node->getLeft());
+            clearHelper(node->getRight());
             delete node;
         }
-        root = nullptr;
+        root_ = nullptr;
     }
 
     T findMinHelper() const {
@@ -166,7 +166,7 @@ private:
             throw std::logic_error("Tree is empty");
         }
         
-        AVLNode<T>* current = root;
+        AVLNode<T>* current = root_;
         while (current->getLeft() != nullptr) {
             current = current->getLeft();
         }
@@ -179,7 +179,7 @@ private:
             throw std::logic_error("Tree is empty");
         }
 
-        AVLNode<T>* current = root;
+        AVLNode<T>* current = root_;
         while (current->getRight() != nullptr) {
             current = current->getRight();
         }
@@ -197,7 +197,7 @@ private:
 
     void inOrderHelper(AVLNode<T>* node, vector<T>& result) const {
         if (node) {
-            inOrderHelper(ndoe->getLeft(), result);
+            inOrderHelper(node->getLeft(), result);
             result.push_back(node->getData());
             inOrderHelper(node->getRight(), result);
         }
@@ -226,4 +226,4 @@ private:
 
 };
 
-#endif AVL_TREE_H
+#endif AVLTREE_H
